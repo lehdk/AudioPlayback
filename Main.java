@@ -17,7 +17,7 @@ public class Main {
         System.out.println("Launching Audio");
         
         try {
-            AudioFormat format = getAudioFormat();
+            AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, false);
 
             // Setting up input audio
             DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
@@ -48,12 +48,13 @@ public class Main {
                     AudioInputStream audioInputStream = new AudioInputStream(targetLine);
                     
                     // TEST
-                    final int BUFFER_SIZE = 4096;
+                    final int BUFFER_SIZE = 2200;
                     byte[] samples = new byte[BUFFER_SIZE];
                     try {
                         shouldRun = true;
                         while (shouldRun) {
                             sourceDataLine.write(samples, 0, audioInputStream.read(samples, 0, BUFFER_SIZE));
+                            
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -80,10 +81,6 @@ public class Main {
             lue.printStackTrace();
         }
 
-    }
-
-    private static AudioFormat getAudioFormat() {
-        return new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, false);
     }
 
 }
